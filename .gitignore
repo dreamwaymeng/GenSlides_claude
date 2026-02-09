@@ -1,0 +1,17 @@
+# LaTeX auxiliary files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+
+# macOS
+.DS_Store
+
+# Editor files
+*.swp
+*~

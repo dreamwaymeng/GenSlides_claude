@@ -1,0 +1,427 @@
+% !TeX spellcheck = <none>
+\documentclass[prd,twocolumn,showpacs,superscriptaddress,nofootinbib,floatfix,showkeys,10pt]{revtex4-2}
+\usepackage{bm}
+\usepackage{times}
+\usepackage{braket}
+\usepackage{amsfonts,amssymb,stmaryrd,latexsym,amsmath}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{epsfig}
+\usepackage{slashed}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{slashed}
+\usepackage{orcidlink}
+\usepackage{multirow}
+\usepackage{appendix}
+\usepackage{dashrule}
+
+
+
+
+\allowdisplaybreaks[1]
+
+\definecolor{nicered}{rgb}{0.7,0.1,0.1}
+\definecolor{nicegreen}{rgb}{0.1,0.5,0.1}
+\definecolor{emph}{rgb}{1,0,0}
+\definecolor{doub}{rgb}{0.7,0.2,1.0}%{0.93,0.51,0.93}
+\definecolor{navyblue}{RGB}{0, 110, 184}
+\hypersetup{colorlinks,citecolor=nicegreen,linkcolor=nicered,urlcolor=navyblue}
+
+
+%
+%% %%%%%%%%%%%%%%%open the reply mode%%%%%%%%%%%%%%%%%%
+%\newcounter{cnt}
+%\setcounter{cnt}{1}
+%\makeatletter
+%\let\oldhypertarget\hypertarget
+%\renewcommand{\hypertarget}[2]{%
+%  \oldhypertarget{#1}{#2}%
+%    \protected@write\@mainaux{}{%
+%        \string\expandafter\string\gdef
+%          \string\csname\string\detokenize{#1}\string\endcsname{#2}%
+%    }%
+%  }
+%\newcommand{\myhyperlink}[1]{%
+%  \hyperlink{#1}{\csname #1\endcsname}%
+%  }
+%\makeatother
+%\newcommand{\clabel}[2][]{\hypertarget{#1}{\textcolor{brown}{\bf [C\arabic{cnt}]}}\textcolor{red}{#2}\addtocounter{cnt}{1}}
+%\newcommand{\cref}[1]{\myhyperlink{#1}}
+%\newcommand{\change}[1]{\textcolor{red}{#1}}
+%
+%
+%% %%%%%%%%%%%%%%%open the reply mode%%%%%%%%%%%%%%%%%%
+
+ %%%%%%%%%%%%%%%close the reply mode%%%%%%%%%%%%%%%%%%
+ \newcommand{\clabel}[2][]{#2}
+ \newcommand{\change}[1]{#1}
+ %%%%%%%%%%%%%%%close the reply mode%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{document}
+
+
+ %%%%%%%%%open for appendix%%%%%%%%%%%
+\newcommand{\appALI}{Appendix~\ref{app:QM}}
+\newcommand{\appOPT}{Appendix~\ref{app:opt}}
+\newcommand{\appEEE}{Appendix~\ref{app:eee}}
+%%%%%%%%%open for appendix%%%%%%%%%%%
+
+%%%%%%%%%open for SM%%%%%%%%%%%
+% \newcommand{\appAL1}{Supplemental Materials}
+% \newcommand{\appOPT}{Supplemental Materials}
+% \newcommand{\appOEEE}{Supplemental Materials}
+%%%%%%%%%open for SM%%%%%%%%%%%
+
+
+
+%
+% %%%%%%%%%%%%%%%open the reply mode%%%%%%%%%%%%%%%%%%
+%\onecolumngrid
+%\input{reply1.tex}
+%\newpage
+%\setcounter{page}{0}
+%\setcounter{equation}{0} 
+%\setcounter{table}{0} 
+%\setcounter{figure}{0} 
+% %%%%%%%%%%%%%%%open the reply mode%%%%%%%%%%%%%%%%%%
+	
+	\title{DeepQuark: deep-neural-network approach to multiquark bound states} 
+	\author{Wei-Lin Wu\,\orcidlink{0009-0009-3480-8810}}\email{wlwu@pku.edu.cn}
+	\affiliation{School of Physics, Peking University, Beijing 100871, China}
+	\author{Lu Meng\,\orcidlink{0000-0001-9791-7138}}\email{lu.meng@rub.de}
+	\affiliation{Institut f\"ur Theoretische Physik II, Ruhr-Universit\"at Bochum,  D-44780 Bochum, Germany }
+	\affiliation{School of Physics, Southeast University, Nanjing 210094, China}
+	\author{Shi-Lin Zhu\,\orcidlink{0000-0002-4055-6906}}\email{zhusl@pku.edu.cn}
+	\affiliation{School of Physics and Center of High Energy Physics,
+		Peking University, Beijing 100871, China}
+	
+	\begin{abstract}
+
+    For the first time, we implement the deep-neural-network-based variational Monte Carlo approach for the multiquark bound states, whose complexity surpasses that of electron or nucleon systems due to strong SU(3) color interactions. We design a novel and high-efficiency architecture, DeepQuark, to address the unique challenges in multiquark systems such as stronger correlations, extra discrete quantum numbers, and intractable confinement interaction. Our method demonstrates competitive performance with state-of-the-art approaches, including diffusion Monte Carlo and Gaussian expansion method, in the nucleon, doubly heavy tetraquark, and fully heavy tetraquark systems. Notably, it outperforms existing calculations for pentaquarks, exemplified by the triply heavy pentaquark. For the nucleon, we successfully incorporate three-body flux-tube confinement interactions without additional computational costs. In tetraquark systems, we consistently describe hadronic molecule $T_{cc}$ and compact tetraquark $T_{bb}$ with an unbiased form of wave function ansatz. In the pentaquark sector, we obtain weakly bound $\bar D^*\Xi_{cc}^*$ molecule $P_{cc\bar c}(5715)$ with $S=\frac{5}{2}$ and its bottom partner $P_{bb\bar b}(15569)$. They can be viewed as the analogs of the molecular $T_{cc}$. We recommend experimental search of $P_{cc\bar c}(5715)$ in the D-wave $J/\psi \Lambda_c$ channel. DeepQuark holds great promise for extension to larger multiquark systems, overcoming the computational barriers in conventional methods. It also serves as a powerful framework for exploring confining mechanism beyond two-body interactions in multiquark states, which may offer valuable insights into nonperturbative QCD and general many-body physics.
+    
+	\end{abstract}
+	\maketitle
+	
+	\section{Introduction}
+
+
+    The quark model proposed by Gell-Mann~\cite{Gell-Mann:1964ewy} and Zweig~\cite{Zweig:1964ruk} provides a remarkably successful framework for understanding the conventional hadron spectrum, classifying hadrons into mesons ($q\bar q$) and baryons ($qqq$). Although multiquark states such as tetraquarks $(qq\bar q\bar q)$ and pentaquarks ($qqqq\bar q$) were proposed concurrently~\cite{Gell-Mann:1964ewy,Zweig:1964ruk}, their existence remained elusive until recent years. Since the discovery of the $X(3872)$ in 2003~\cite{Belle:2003nnu}, numerous multiquark candidates have been observed, including many manifestly exotic states like $T_{c\bar c 1}(3900)$~\cite{BESIII:2013ris,Belle:2013yex}, $T_{cc}(3875)^+$~\cite{LHCb:2021vvq,LHCb:2021auc} , $P_{c\bar c}$ states~\cite{LHCb:2015yax, LHCb:2019kea}, and $T_{cc\bar c\bar c}(6900)^0$~\cite{LHCb:2020bwg}, establishing the existence of multiquark hadrons (see~\cite{Chen:2016qju,Hosaka:2016pey,Lebed:2016hpi,Guo:2017jvc,Liu:2019zoy,Brambilla:2019esw,Chen:2022asf,Meng:2022ozq} for comprehensive reviews).  Elucidating the configurations of these multiquark states poses new challenges to the quark model, and also offers a unique window into the nonperturbative regime of quantum chromodynamics (QCD)—the fundamental theory of strong interactions. The investigation of clustering behaviors in multiquark systems, particularly in distinguishing compact configurations from loosely bound hadronic molecules, offers an unprecedented opportunity to explore quantum many-body dynamics governed by SU(3) color interactions, which is fundamentally different from systems dominated by electromagnetic or nuclear forces.
+
+    
+
+     Solving the quantum many-body problem of multiquark states in quark models can be quite challenging.  In addition to the exponential scaling of wave function dimensionality with the particle number, the multiquark systems involve an extra SU(3) color degree of freedom compared to electron and nucleon systems, causing even greater complexity. Moreover, constructing multiquark systems of interest often requires imposing constraints from various quantum numbers—such as spin, parity, flavor, and color—that arise from underlying symmetry principles. These constraints significantly complicate the theoretical treatment. For example, in calculating the ground states of electron systems, spins are usually not explicitly constrained, as the ground state naturally converges to a certain spin configuration. However, in the case of  doubly charmed tetraquark $T_{cc}$~\cite{LHCb:2021vvq,LHCb:2021auc}, the total spin should be constrained to 1 to avoid falling into the lower scalar $DD$ threshold. Furthermore, the strong color interaction between (anti)quarks leads to significant correlations, rendering the single-particle approximation—effective in nuclear and atomic systems—invalid. As a result, the shell structure observed in those systems is absent in multiquark states. Without such a simplified approximation as a  guidance or starting point, the full dynamical multichannel treatments of multiquark systems become  computationally intensive.  Additionally, progress in lattice QCD~\cite{Okiharu:2004ve,Cardoso:2012uka} seems to favor the few-body confinement mechanisms over pairwise interactions in multiquarks, introducing new challenges to their quantum many-body descriptions~\cite{Bicudo:2015bra}. The aforementioned complexities make comprehensive calculations of multiquark states highly challenging, even for five-body systems. 
+    Existing approaches, such as basis expansion methods exemplified by the Gaussian expansion method (GEM)~\cite{Hiyama:2003cu}, are hindered from complete calculations due to the exponential growth of basis states. Meanwhile, diffusion Monte Carlo (DMC) suffers from the notorious sign problem~\cite{Troyer:2004ge}, which severely limits its applicability to such strongly correlated systems. Previous studies on pentaquarks~\cite{Hiyama:2018ukv,Giron:2021fnl,Yan:2021glh,Yang:2022bfu,An:2022fvs,Liang:2024met,Gordillo:2024blx} made various approximations in the spatial configurations~\cite{Giron:2021fnl,Yan:2021glh,Yang:2022bfu,An:2022fvs,Liang:2024met} or color degree of freedom~\cite{Hiyama:2018ukv,Giron:2021fnl,Gordillo:2024blx} to simplify the calculations, which may result in unknown systematical errors and unreliable conclusions. 
+
+    Recently, the development of machine learning techniques provides a new approach to solving the quantum many-body problem. Motivated by the exceptional capacity of deep neural networks (DNNs) to approximate high-dimensional functions~\cite{LeCun:2015pmr}, DNNs are anticipated to be a flexible and effective wave function representation capable of capturing complex many-body correlations efficiently~\cite{Carleo:2019ptp,zhang2025AI4S}. DNN-based variational Monte Carlo (VMC) method has been successfully applied to quantum spin systems~\cite{Carleo2017}, atomic and molecular physics~\cite{Han2019,FermiNet,hermann2020deep}, condensed matter~\cite{li2022ab,Kim:2023fwy} and nuclear physics~\cite{Keeble2020,Adams:2020aax,Yang:2022esu,Yang:2022rlw,Yang:2024wsg,Fore:2024exa,Yang:2025mhg}, achieving high accuracies and demonstrating potential for scaling to larger systems. However, its application in multiquark 
+     remains unexplored. DNN-based wave functions, which are free from \textit{a priori} assumptions, can unbiasedly and consistently describe various multiquark configurations, including hadronic molecules and compact multiquark states. Moreover, VMC circumvents the sign problem in imaginary time evolution of DMC, making it capable of handling strongly correlated systems. Meanwhile, unlike basis expansion methods, VMC enables the treatments of complicated interactions that go beyond two-body force even without extra computational costs, paving the way for investigations of confining mechanisms and many-body forces in multiquark states.
+
+
+    In this work, we develop a DNN-based VMC approach, DeepQuark, to calculate multiquark bound states in the quark model.  A major difference between DeepQuark and previous DNN-based studies is the architecture of many-body wave function. Most of the previous works use a determinant type wave function ansatz~\cite{FermiNet,hermann2020deep,li2022ab,Yang:2022rlw}, which originates from the idea of single-particle orbitals in electron and nucleon systems, and consider the correlations by multiple determinants, Jastrow factors and backflow transformation. However, such constructions may not apply to the strongly correlated hadron systems. Instead, we construct the DeepQuark wave function in the coupled color-spin-isospin bases, which represents the correlations in the most general way while automatically enforcing symmetry requirements. We first benchmark our results against GEM and DMC for the nucleon in two different confinement interactions and tetraquark bound states. We further demonstrate DeepQuark's ability for larger systems by investigating triply heavy pentaquarks $QQqq\bar Q$ ($Q=b,c;q=u,d$), where bound states that are analogs of the doubly heavy tetraquarks $QQ\bar q\bar q$ are obtained.
+    
+    
+
+    
+    
+	\section{Hamiltonian}
+	The nonrelativistic Hamiltonian in the quark model reads
+	\begin{equation}
+		H=\sum_{i} (m_i+\frac{p_i^2}{2 m_i})+\sum_{i<j} V_{ij},
+	\end{equation}
+	where the first two terms are the mass and kinetic energy of the (anti)quark $i$, respectively. $V_{ij}$ represents the two-body interaction between the (anti)quark pair ($ij$). In this work, we adopt a minimal quark model—the AL1 model introduced in Refs.~\cite{Semay:1994ht,SilvestreBrac1996}—which includes the one-gluon-exchange interaction $V_{\text{OGE}}$ and a two-body linear confinement term $V_{\text{conf}}$,
+	\begin{equation}
+		\label{eq:AL1}
+		\begin{aligned}
+			&V_{\text{OGE},ij} =-\frac{3}{16} \boldsymbol\lambda_i \cdot \boldsymbol\lambda_j\left(-\frac{\kappa}{r_{i j}}-\Lambda+\frac{8 \pi \kappa^{\prime}}{3 m_i m_j} \frac{e^{ -r_{i j}^2 / r_0^2}}{\pi^{3 / 2} r_0^3} \boldsymbol{s}_i \cdot \boldsymbol{s}_j\right),\\
+			&V_{\text{conf},ij}=-\frac{3}{16} \boldsymbol\lambda_i \cdot \boldsymbol\lambda_j \lambda r_{i j}.
+		\end{aligned}
+	\end{equation}
+	Here, $\boldsymbol\lambda_i $ is the SU(3) Gell-Mann color matrix acting on the $i$-th quark (replaced by -$\boldsymbol\lambda^*$ for antiquark), and $\boldsymbol{s}_i$ is the spin-operator. The parameters of the model were determined by fitting the meson spectra across all flavor sectors. This interaction structure closely resembles that of the well-known Cornell model~\cite{Eichten:1978tg, Eichten:1979ms} but takes the light quark sector into consideration. For baryon systems~\cite{SilvestreBrac1996}, an additional phenomenological term $V_{123}=-\frac{C}{m_1m_2m_3}$, which is inversely proportional to the quark mass, is introduced to mimic the three-body interaction effect. For hadron systems with heavy quarks, this term only gives small corrections and therefore is neglected in calculation.
+	
+	For the nucleon, we also test the flux-tube confinement interaction $V^{\text{ft}}_{\text{conf}}$, which is proportional to $L_{\text{min}}$, the minimal length of the color flux tubes connecting three quarks at a junction point~\cite{Artru:1974zn,Takahashi:2000te,Takahashi:2002bw},
+	\begin{equation}
+		\label{eq:fluxtube}
+		V^{\text{ft}}_{\text{conf}}=\sigma L_{\text{min}}.
+	\end{equation} 
+	The parameters of the potential and the masses of heavy mesons and baryons are given in \appALI. In the absence of spin-orbit and tensor operators, the total angular momentum $J$, total orbital angular momentum $L$ and total spin $S$ are all good quantum numbers. Since ground states are expected to be S-wave, we have $J=S$.   
+	\section{Neural-network wave function}
+	
+	\begin{figure*}[tbp]
+		\centering
+		\includegraphics[width=0.85\linewidth]{framework}
+		\caption{Architecture of the DeepQuark wave function, taking isoscalar doubly heavy tetraquark as an example. The physical inputs in spatial, color, spin and isospin degrees of freedom are transformed as the encoded inputs before fed into the DNN. Boundary condition, fermionic antisymmetrization ($\mathcal{A}$) and parity projection $(1+\pi\hat{P})$ are imposed on the scalar output of the DNN $f_{NN}(\boldsymbol{x})$ to obtain the multiquark wave function $\Psi_{\text{A}}^\pi(\boldsymbol{x})$. }
+		\label{fig:frame}
+	\end{figure*}
+    
+	The architecture of the DeepQuark wave function is illustrated in Fig.~\ref{fig:frame}. The core of the framework is to construct a multiquark wave function with the desired symmetry, namely, a color-singlet state with definite total spin $S$, isospin $I$ and parity $\pi$ that obeys Fermi-Dirac statistics. To that end, we work in the coupled bases. Taking isoscalar vector doubly heavy tetraquark as an example, the color-spin-isospin degrees of freedom can be coupled into the following independent bases,
+	\begin{equation}
+		\begin{aligned}
+			&\chi_{\bar 3_c\otimes 3_c}\phi^{s_a,s_b}\xi^{I=0}=\left[\left(QQ\right)_{\bar 3_c}^{s_a}\left(\bar q\bar q\right)_{3_c}^{s_b,I=0}\right]_{1_c}^{S=1},\\
+			&\chi_{6_c\otimes \bar6_c}\phi^{s_a,s_b}\xi^{I=0}=\left[\left(QQ\right)_{6_c}^{s_a}\left(\bar q\bar q\right)_{\bar6_c}^{s_b,I=0}\right]_{1_c}^{S=1},\\
+		\end{aligned}
+	\end{equation}
+	where $s_a$ and $s_b$ take all possible combinations. $\chi$, $\phi$, and $\xi$ represent the color, spin, and isospin coupled bases, which are further mapped into vectors $\alpha_c$, $\alpha_s$ and $\alpha_t$, respectively. Here, $\alpha$ is a standard basis vector in $\mathbb{R}^n$, with $n$ being the number of independent bases. The mapping into standard basis vectors rather than integers from $1$ to $n$ ensures that no prejudiced correlation between different bases is introduced. By taking the vectors $\alpha$ as inputs of the DNN, the symmetry information is encoded into the DeepQuark wave function. 
+	
+	For the spatial degree of freedom, we include the (anti)quark coordinates in the center of mass frame $\boldsymbol{r}_i$ and the distances between two (anti)quarks $\left|\boldsymbol{r}_i-\boldsymbol{r}_j\right|$ as input features. The inclusion of the distances is redundant in principle but can improve the performance of neural-network wave function~\cite{FermiNet}. The magnitude of interparticle distance is a non-smooth function at zero, which could better describe the wave function cusps~\cite{FermiNet} arising from short-range color Coulomb interaction  in Eq.~\eqref{eq:AL1}. It is also an important variable with direct physical meaning, which can encapsulate interparticle correlations effectively. It is worth mentioning that as the wave function is a function of three-dimensional coordinates $\boldsymbol{r}_i$, it includes contributions from all  orbital angular momentum $L$. The wave function should naturally converge to the S-wave ground state in the optimization process. 
+	
+	The input features $\boldsymbol{x}=\left(\boldsymbol{r}_i,\left|\boldsymbol{r}_i-\boldsymbol{r}_j\right|,\alpha_c,\alpha_s,\alpha_t\right)$ are fed into a DNN with four fully connected hidden layers. Each layer takes the outputs of the previous layer as inputs and carries out the following mapping,
+	\begin{equation}
+		\boldsymbol{x}_{\text{out}}=\sigma(\boldsymbol{W}\boldsymbol{x}_{\text{in}}+\boldsymbol{c}),
+	\end{equation}
+	where $\boldsymbol{W}$, $\boldsymbol{c}$ are variational parameters, and $\sigma=\tanh$ is the activation function. Since the parameters are initialized randomly, the scalar output of the network $f_{NN}$ are multiplied by a boundary condition $\prod_{i<j}\exp(-r_{ij}^2/b^2)$ to confine the system in a localized space. We take $b=2\sim4$ fm, which is on the order of the typical range of color confinement, $\Lambda_{\text{QCD}}^{-1}\sim1$ fm. Finally, the fermionic antisymmetry and parity projection is enforced,
+	\begin{equation}
+		\Psi_{\text{A}}^\pi(\boldsymbol{x})=(1+\pi\hat{P})\mathcal{A}\left[f_{NN}(\boldsymbol{x})\prod_{i<j}\exp\left(-\frac{r_{ij}^2}{b^2}\right)\right],
+	\end{equation}
+	where $\hat{P}$ and $\mathcal{A}$ are the spatial inversion operator and antisymmetric operator of identical particles, respectively. Enforcing antisymmetry by explicitly summing over all possible permutations leads to a factorial complexity. However, given the current experimental and theoretical progress, we will only focus on multiquark systems with at most 3 to 4 identical particles, and such a complexity is manageable.
+	
+	The DNN is trained in an unsupervised way using the variational principle. The parameters are optimized by minimizing the energy expectation value:
+	\begin{equation}
+		E_{\boldsymbol{\theta}}=\frac{\langle\psi_{\boldsymbol{\theta}}|H|\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}\geq E_0,
+	\end{equation}
+	where $\boldsymbol{\theta}$ denotes the parameters and $E_0$ is the exact ground-state energy. A good enough wave function ansatz converges to the ground state in the optimization process. In each iteration, the Metropolis-Hastings Monte Carlo method~\cite{Metropolis1953,Hastings1970} is used to evaluate the energy expectation and its gradient with respect to the parameters $\nabla_{\boldsymbol{\theta}} E_{\boldsymbol{\theta}}$. The parameters are then updated using the stochastic reconfiguration~\cite{PhysRevB.71.241103}, a commonly used optimization method in VMC~\cite{Adams:2020aax,Yang:2022rlw},
+	\begin{equation}
+		\boldsymbol{\theta}^{i+1}=\boldsymbol{\theta}^i-\eta(S+\epsilon I)^{-1}\nabla_{\boldsymbol{\theta}^i}E_{\boldsymbol{\theta}^i},
+	\end{equation}
+	where $i$ is the iteration step, $\eta$ is the learning rate, $\epsilon=10^{-3}$ is taken for numerical stability, and $S$ is the Quantum Fisher information matrix,
+	 \begin{equation}
+		S_{ab}=\frac{\langle \partial_{\theta_a}\psi_{\boldsymbol{\theta}}|\partial_{\theta_b}\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}-\frac{\langle \partial_{\theta_a}\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}\frac{\langle \psi_{\boldsymbol{\theta}}|\partial_{\theta_b}\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}.
+	\end{equation}
+
+	More details of the optimization process can be found in the  \appOPT.
+	
+	\section{Results and Discussions}
+	As a warm-up exercise, we test DeepQuark on few-electron systems, including $e^+e^-$ ($\mathrm{Ps}$), $e^+e^-e^-$ ($\mathrm{Ps}^-$) and $e^+e^+e^-e^-$ ($\mathrm{Ps}_2$). They are dominated by simple Coulomb interaction and can be regarded as the quantum electrodynamics counterparts of multiquark systems~\cite{Ma:2025rvj}. The DeepQuark results can reach a high accuracy with less than $1\text{\textperthousand}$ relative difference compared to the benchmark energies~(see \appEEE ). 
+    
+    \begin{figure*}[tbp]
+        \centering
+        \includegraphics[width=\linewidth]{Graph_multiquark}
+        \caption{The energy estimate as a function of iteration steps for the (a) nucleon in the AL1 potential and flux-tube confinement interaction (FT), (b) isoscalar vector doubly charmed tetraquark, (c) scalar fully charmed tetraquark, and (d) isoscalar triply bottomed tetraquark systems in the optimization progress of DeepQuark (DQ). The Monte Carlo standard errors of the energies are shown by the shaded area, which are very tiny. The lowest two-body dissociation thresholds are represented by the black dashed lines. The ground-state energies given by the Gaussian expansion method (GEM)~\cite{Ma:2022vqf,Meng:2023jqk} and diffusion Monte Carlo (DMC)~\cite{Ma:2022vqf} are respectively displayed by the blue and purple dashed lines for comparison. }
+        \label{fig:multi}
+    \end{figure*}
+    
+    The optimization performance of DeepQuark in hadron systems is shown in Fig.~\ref{fig:multi}. We take four systems as examples, including the nucleon, doubly charmed and fully charmed tetraquarks, and triply bottomed pentaquark. It can be seen that DeepQuark achieves good convergence within a few thousand iterations for all these systems. The statistical errors of the DeepQuark energy results are less than $0.1$ MeV, which are significantly smaller than the model uncertainty and can be neglected. In the nucleon system, DeepQuark quickly converges to the benchmark results from GEM and DMC~\cite{Ma:2022vqf} for both two-body AL1 interaction in Eq.~\eqref{eq:AL1} and flux-tube confinement interaction in Eq.~\eqref{eq:fluxtube}.  Calculating flux-tube interactions is computationally intractable in basis expansion methods, whereas DeepQuark handles them efficiently through Monte Carlo evaluation. This highlights DeepQuark's ability in managing complicate potentials of various forms. 
+	
+	
+    
+	For tetraquark states, we investigate two systems that are of most concern, the isoscalar doubly heavy tetraquark $QQ\bar q\bar q\,(T_{QQ})$ and fully heavy tetraquark $QQ\bar Q\bar Q\,(T_{4Q})$. The existence of a deeply bound $T_{QQ}$ state for large enough heavy quark mass has long been anticipated~\cite{Zouzou1986,Manohar:1992nd} and was also predicted by lattice QCD study~\cite{Francis:2016hui,Junnarkar:2018twb}. Moreover, great experimental progress has been made in the discovery of $T_{cc}$~\cite{LHCb:2021vvq,LHCb:2021auc}. The $T_{4Q}$ system serves as a clear platform to investigate the short-range gluon exchange and confinement interaction, as it is less affected by the chiral dynamics. Bound states in such a system are inconclusive but a family of $T_{4c}$ resonances have been discovered experimentally~\cite{LHCb:2020bwg,CMS:2023owd,ATLAS:2023bft}. Recently, the CMS collaboration determined three $T_{4c}$ resonances with high significances and analyzed their quantum numbers to be $J^{PC}=2^{++}$~\cite{CMS:2025fpt}.  In Table~\ref{tab:tetra}, we present the ground-state properties of these tetraquark states and compare them with the results from GEM, which was shown to be a superior numerical approach to solving tetraquark bound states~\cite{Meng:2023jqk}.  For $T_{QQ}$ systems, the DeepQuark ground-state energies are consistent with the GEM results in general, and lower the energies of $T_{cc}$ states by $\simeq1$ MeV. This shows that DeepQuark has a stronger expressive power for the multiquark wave function than GEM. The ground state of $T_{bb}$ is dominated by the $\chi_{\bar 3_c\otimes 3_c}$ color configuration, whereas $T_{cc}$ exhibits sizable contributions from both $\chi_{\bar 3_c\otimes 3_c}$ and $\chi_{6_c\otimes \bar 6_c}$ configurations. Starting from a randomly initialized trial wave function, DeepQuark naturally converges to these two ground states with distinct mixing effects, demonstrating its strong capability in handling coupled-channel problems. On the other hand, no bound state solution is found in $T_{4Q}$ systems. The ground-state energies lie above the lowest meson-meson thresholds, and the color proportions $\chi_{\bar 3_c\otimes 3_c}:\chi_{6_c\otimes \bar6_c}\simeq1:2$ are in accordance with the meson-meson scattering states~\cite{Wu:2024euj}. However, since the DeepQuark wave function is constrained in a localized space, it cannot converge to an ideal scattering state with zero relative momentum. Therefore, the ground-state energies are $\sim 10$ MeV above the thresholds and the color proportions slightly deviates from $\chi_{\bar 3_c\otimes 3_c}:\chi_{6_c\otimes \bar6_c}\simeq1:2$.
+
+
+    \begin{table*}[tbp]
+		\centering
+		\caption{Ground-state energies, color proportions and rms radii (in fm) of the isoscalar doubly heavy ($QQ\bar q\bar q$) and fully heavy $(QQ\bar Q\bar Q)$ tetraquark systems. The binding energies $\Delta E$ (in MeV) are with respect to the lowest dihadron thresholds listed in the third column. ``NB" indicates no bound state solution. The statistical errors of the energies from DeepQuark (DQ) are less than 0.1 MeV. The ground-state energies from GEM~\cite{Meng:2023jqk} are listed for comparison.}
+		\label{tab:tetra}
+		\begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}lccccccccc@{}}
+			\hline\hline
+			&&&\multicolumn{6}{c}{DQ}&GEM~\cite{Meng:2023jqk}\\
+			\hline
+			&$S^P$&Thresholds&$\Delta E$&$ \chi_{\bar3_c\otimes 3_c} $&$ \chi_{6_c\otimes\bar 6_c} $&$r_{Q\bar q}$&$r_{QQ}$&$r_{\bar q\bar q}$&$\Delta E$\\
+			\hline
+			$cc\bar q\bar q$&$1^+$&$D^*D$&-15&55\%&45\%&1.06&1.24&1.41&-14\\
+			$bb\bar q\bar q$&$1^+$&$\bar B^*\bar B$&-153&97\%&3\%&0.69&0.33&0.78&-153\\
+			$cc\bar c\bar c$&$0^+,1^+,2^+$&$\eta_c\eta_c,\eta_cJ/\psi,J/\psi J/\psi$&NB&$\sim$34\%&$\sim$66\%&&&&NB\\
+			$bb\bar b\bar b$&$0^+,1^+,2^+$&$\eta_b\eta_b,\eta_b\Upsilon,\Upsilon \Upsilon$&NB&$\sim$34\%&$\sim$66\%&&&&NB\\
+			\hline\hline
+		\end{tabular*}
+	\end{table*}
+    
+	The DeepQuark wave function can consistently describe multiquark states with various configurations, including compact tetraquark and meson molecule. The root-mean-square (rms) radii of $T_{bb}$ and $T_{cc}$ are shown in Table~\ref{tab:tetra}. $T_{bb}$ is a distinct compact tetraquark, where two bottom quarks form a compact diquark cluster of $0.33$ fm and the light quarks orbit around the heavy diquark. In contrast to the compact $T_{bb}$, the size of $T_{cc}$ is significantly larger, with $r_{cc},r_{\bar q \bar q}>r_{c\bar q}$, suggesting a molecular structure of two charmed mesons~\cite{Li:2012ss}.  A loosely bound molecular $T_{cc}$ is in agreement with the experimental results~\cite{LHCb:2021vvq,LHCb:2021auc}. The separation between two charmed mesons becomes larger when the binding energy is tuned to be as small as the experimental one~\cite{Wu:2024zbx}.
+  
+	
+	Inspired by the existence of $\bar Q\bar Qqq$ bound states,  we further employ DeepQuark to investigate the isoscalar triply heavy pentaquark $(QQqq\bar Q)$, which is the partner of the doubly heavy tetraquark if we consider the diquark-antiquark symmetry~\cite{Guo:2013xga,Wang:2024yjp}, namely replacing a heavy antiquark $\bar Q$ by a heavy diquark $QQ$. As the two heavy quarks may form a compact object with the same color representation $\bar 3_c$ as the antiquark, it is expected that the interactions in these two systems are similar, and $\bar Q\bar Qqq$ bound states may imply the existence of $QQqq\bar Q$ bound states.   DeepQuark has great advantages in extending to such pentaquark systems, since the computational complexity is almost the same as solving the tetraquark systems.  A complete set of color basis for the pentaquark is given by,
+	\begin{equation}
+		\begin{aligned}
+			\chi_{\bar3_c\otimes\bar 3_c}=\left\{\left[(QQ)_{\bar 3_c}(qq)_{\bar 3_c}\right]_{3_c}\bar Q\right\}_{1_c},\\
+			\chi_{\bar3_c\otimes6_c}=\left\{\left[(QQ)_{\bar 3_c}(qq)_{6_c}\right]_{3_c}\bar Q\right\}_{1_c},\\
+			\chi_{6_c\otimes\bar3_c}=\left\{\left[(QQ)_{6_c}(qq)_{\bar 3_c}\right]_{3_c}\bar Q\right\}_{1_c}.\\
+		\end{aligned}
+	\end{equation}
+
+    \begin{table*}[!htp]
+		\centering
+		\caption{Ground-state energies, color  proportions and rms radii (in fm) of the isoscalar triply heavy pentaquark $(QQqq\bar Q)$ systems. The remaining notations follow the same conventions as in Table~\ref{tab:tetra}.}
+		\label{tab:penta}
+		\begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}lccccccccccc@{}}
+			\hline\hline
+			&$S^P$&Thresholds&$\Delta E$&$ \chi_{\bar3_c\otimes\bar 3_c} $&$ \chi_{\bar3_c\otimes 6_c} $&$ \chi_{6_c\otimes \bar3_c} $&$r_{QQ}$&$r_{Qq}$&$r_{qq}$&$r_{Q\bar Q}$& $r_{q\bar Q}$\\
+			\hline
+			$ccqq\bar c$&$\frac{1}{2}^-,\frac{3}{2}^-$&$\eta_c\Lambda_c,J/\psi\Lambda_c$&NB&$\sim$35\%&0\%&$\sim$65\%&&&&&\\
+			&$\frac{5}{2}^-$&$\bar D^*\Xi_{cc}^*$&-3&27\%&73\%&0\%&0.50&1.39&1.90&1.73&1.38\\
+			$bbqq\bar b$&$\frac{1}{2}^-,\frac{3}{2}^-$&$\eta_b\Lambda_b,\Upsilon\Lambda_b$&NB&$\sim$35\%&0\%&$\sim$65\%&&&&&\\
+			&$\frac{5}{2}^-$&$B^*\Xi_{bb}^*$&-14&19\%&80\%&1\%&0.30&0.89&1.22&0.88&0.88	\\
+			\hline\hline
+		\end{tabular*}
+        
+	\end{table*}
+	We show the ground-state properties in Table~\ref{tab:penta}. In contrast to the expectations from diquark-antiquark symmetry, we find no bound state in the $S=\frac{1}{2},\frac{3}{2}$ $QQqq\bar Q$ systems. The reason is that the existence of $\bar Q$ breaks the diquark-antiquark symmetry by taking one of the heavy quarks to form a quarkonium $(Q\bar Q)_{1_c}$, which is more stable and has lower energy than the configuration with $(QQ)_{\bar 3_c}$. The ground states in these systems are scattering states of a heavy quarkonium and a singly heavy baryon. However, in $S=\frac{5}{2}$ system, an S-wave $S=\frac{3}{2}$ singly heavy isoscalar baryon is not allowed by the antisymmetry of light quarks. As a result, the lowest threshold is $\bar D^*\Xi_{cc}^*$ for $ccqq\bar c$ and $B^*\Xi_{bb}^*$ for $bbqq\bar b$. We find bound state solutions $P_{cc\bar c}(5715)$ and $P_{bb\bar b}(15569)$, whose binding energies are $3$ MeV and $14$ MeV, respectively. They may decay to meson-baryon channels with lower total spin if spin-orbit coupling is considered. For example, $P_{cc\bar c}(5715)$ may be searched for in the $J/\psi\Lambda_c$ channel, but its width is expected to be suppressed by the D-wave decay. From the rms radii of $P_{cc\bar c}(5715)$, the distance $r_{cc}=0.5$ fm is consistent with the compact size of $\Xi_{cc}^*$, whereas $r_{c\bar c}=1.73$ fm is substantially larger. The spatial separation suggests a molecular configuration composed of loosely bound $\bar D^*$ and $\Xi_{cc}^*$, which is analogous to the molecular $T_{cc}$. $P_{bb\bar b}(15569)$ exhibits a similar configuration, but its size is compacted by the heavy quark mass.  
+	
+
+
+    \section{Conclusions and Outlooks}
+
+   For the first time, we implement the DNN-based VMC approach for the multiquark bound states, whose complexity surpasses that of electron or nucleon systems due to strong SU(3) color interactions. We design a novel and high-efficiency architecture, DeepQuark, to address the unique challenges in multiquark systems like stronger correlations, extra discrete quantum numbers, and intractable confinement interaction.  We have shown that DeepQuark is competitive with state-of-the-art approaches including DMC and GEM in baryon and tetraquark systems, reaching high accuracies on ground-state energies with low computational costs. In the nucleon, DeepQuark easily adapts both two-body and flux-tube interactions. In tetraquark systems, it consistently describe meson molecule $T_{cc}$ and compact tetraquark $T_{bb}$ with an unbiased form of wave function ansatz. Moreover, we use DeepQuark to 
+    investigate triply heavy pentaquark ($QQqq\bar Q$) systems. We obtain weakly bound $\bar D^*\Xi_{cc}^*$ molecule $P_{cc\bar c}(5715)$ with $S=\frac{5}{2}$ and its bottom partner $P_{bb\bar b}(15569)$. They can be viewed as the analogs of the molecular $T_{cc}$. We recommend experimental search of $P_{cc\bar c}(5715)$ in the D-wave $J/\psi \Lambda_c$ channel. 
+    
+    DeepQuark holds great promise for extension to diverse pentaquark and even hexaquark systems, overcoming the computational barriers that limit conventional methods. Such investigations can provide forward-looking predictions for future experiments. Furthermore, DeepQuark serves as a powerful framework for exploring confining mechanism beyond two-body interactions in tetraquark states, which may offer valuable insights into multiquark inner structures and nonperturbative QCD. The techniques employed in DeepQuark could enrich the toolkit of deep learning approaches integrated with physics, particularly shedding new light on quantum many-body phenomena. 
+    
+    \section*{Acknowledgment}
+    We thank Yao Ma, Yan-Ke Chen and Liang-Zhen Wen for the helpful discussions. L.M. also thank Yilong Yang and Pengwei Zhao for discussions on DNN and VMC.  This project was supported by the National
+    Natural Science Foundation of China (No. 12475137), and ERC NuclearTheory (Grant No. 885150). The codes are developed based on the NetKet package~\cite{10.21468/SciPostPhysCodeb.7}. The computational resources are supported by High-performance Computing Platform of Peking University.
+
+ 
+  \section*{DATA AVAILABILITY}
+ The data supporting this study’s findings are available
+ within the article.
+ 
+	
+\bibliography{DQRef}
+
+    \appendix
+
+
+	\section{Quark Model}\label{app:QM}
+	The parameters of the AL1 potential~\cite{Semay:1994ht,SilvestreBrac1996} adopted in this work are taken from Ref.~\cite{SilvestreBrac1996} and listed in Table~\ref{tab:paraAL1}. The masses of heavy mesons and baryons in the model are given in Table~\ref{tab:meson_baryon}.
+	\begin{table*}[htbp]
+		\centering
+		\caption{The parameters in the AL1 quark potential model.}
+		\label{tab:paraAL1}
+		\begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}ccccccccccc@{}}
+			\hline\hline
+			$ \kappa $ &$ \lambda { [\mathrm{GeV}^{2}]}$&$ \Lambda {\rm [GeV]} $&$ \kappa^\prime $&$ m_b {\rm [GeV]}$&$ m_c {\rm [GeV]}$&$ m_q {\rm [GeV]}$& $r_0 {\rm [GeV^{-1}]}$ &$ A { [\mathrm{GeV}^{B-1}]}$&$ B $&$C [\mathrm{GeV}^4]$\\
+			\hline
+			0.5069&0.1653&0.8321&1.8609&5.227&1.836&0.315&$A\left(\frac{2m_im_j}{m_i+m_j}\right)^{-B}$&1.6553&0.2204&2.02$\times 10^{-3}$\\
+			\hline\hline
+		\end{tabular*}
+	\end{table*}
+	\begin{table}
+		\centering
+		\caption{The masses (in MeV) of heavy mesons and baryons in the AL1 quark potential model. The results from Gaussian expansion method and the experimental values are shown for comparison. }
+		\label{tab:meson_baryon}
+		\begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}lcccc@{}}
+			\hline\hline
+			&$J^P$& DQ&GEM~\cite{Ma:2022vqf,Meng:2023jqk}&EXP~\cite{ParticleDataGroup:2024cfk} \\
+			\hline
+			$D(c\bar q)$&$0^-$&1862&1862&1867\\
+			$\bar B(b\bar q)$&&5294&5294&5279\\
+			$\eta_c(c\bar c)$ & &3005&3005&2984\\
+			$\eta_b(b\bar b)$ & &9424&9424&9399\\
+			$D^*(c\bar q)$&$1^-$&2016&2016&2009\\
+			$\bar B^*(b\bar q)$&&5350&5350&5325\\
+			$J/\psi(c\bar c)$ & &3101&3101&3097 \\
+			$\Upsilon(b\bar b)$ & &9462&9462&9460 \\
+			$\Lambda_c^+(cqq)$&$\frac{1}{2}^+$&2290&2291&2286\\
+			$\Lambda_b^0(bqq)$&&5636&5636&5620\\
+			$\Xi_{cc}^*(ccq)$&$\frac{3}{2}^+$&3702&3702&$\cdots$\\
+			$\Xi_{bb}^*(bbq)$&&10232&10232&$\cdots$\\
+			\hline\hline
+		\end{tabular*}
+	\end{table}
+	
+	For the nucleon, we also test the flux-tube confinement model as shown in Fig.~\ref{fig:qqqFT}, where the linear pairwise confinement interactions $V_{\text{conf},ij}$ in Eq.~\eqref{eq:AL1} are replaced by the flux-tube interaction in Eq.~\eqref{eq:fluxtube}. The string tension $\sigma$ in Eq.~\eqref{eq:fluxtube} is given as $\sigma=0.9204\lambda$~\cite{Ma:2022vqf}, which was determined by fitting the experimental mass of $\Omega^-(sss)$ and is consistent with the best fitting parameters in lattice QCD simulation~\cite{Takahashi:2000te}. In baryon systems, the minimal length of color flux tubes can be solved analytically~\cite{Takahashi:2002bw} and is given as 
+	\begin{widetext}
+		\begin{equation}
+		L_{\text{min}}=\begin{cases}
+			\left[\frac{1}{2}(a^2+b^2+c^2)+\frac{\sqrt{3}}{2}\sqrt{d(d-2a)(d-2b)(d-2c)}\right]^{1/2}&\max(\theta_a,\theta_b,\theta_c)<\frac{2\pi}{3},\\
+			d-\max(a,b,c)&\max(\theta_a,\theta_b,\theta_c)>\frac{2\pi}{3},
+		\end{cases}
+	\end{equation}
+	\end{widetext}
+	where $\theta_a,\theta_b,\theta_c$ are the interior angles of the baryon triangles,  $a,b,c$ are the lengths of sides, and $d=a+b+c$.
+
+	\begin{figure}
+	    \centering
+	    \includegraphics[width=0.3\textwidth]{qqqFT.pdf}
+	    \caption{Two confinement scenarios for the baryons. The left and right panels represent the pairwise confinement mechanism  and the flux-tube confinement mechanism, respectively.}
+	    \label{fig:qqqFT}
+	\end{figure}
+
+    \section{Details of the optimization process}~\label{app:opt}
+	
+	The deep neural network (DNN) in the DeepQuark wave function consists of the input features $\boldsymbol{x}=\left(\boldsymbol{r}_i,\left|\boldsymbol{r}_i-\boldsymbol{r}_j\right|,\alpha_c,\alpha_s,\alpha_t\right)$, four hidden fully connected layers and a one-dimensional output $f_{NN}(\boldsymbol{x})$. Here $\boldsymbol{r}_i,\alpha_c,\alpha_s,\alpha_t$ are the spatial three-dimensional coordinates in the center of mass frame and the encoded vectors of color, spin and isospin coupled bases, respectively. The number of nodes in each hidden layer and the total number of variational parameters in the DNN for different systems are given in Table~\ref{tab:DNN}. We use larger DNNs for larger systems to ensure the flexibility of the wave function.
+	
+	
+	\begin{table}[tbp]
+		\centering
+		\caption{The number of nodes in each hidden layer and the total number of variational parameters in the DNN for different systems.}
+		\label{tab:DNN}
+		\begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}lccc@{}}
+			\hline\hline
+			Systems&$S^P$ &Nodes&Parameters \\
+			\hline
+			$ e^+e^- $&$0^+$&$(16,16,16,16)$&961\\
+			$e^+e^-e^-$&$0^+$&$(16,16,16,16)$&1041\\
+			$e^+e^+e^-e^-$&$0^+$ &$(16,16,16,16)$&1137\\
+			$qqq$&$\frac{1}{2}^+$&$(16,16,16,16)$&1105\\
+			$QQ\bar q\bar q$&$1^+$&$(32,16,16,16)$&1889\\
+			$QQ\bar Q\bar Q$&$0^+$&$(32,16,16,16)$&1825\\
+			$QQ\bar Q\bar Q$&$1^+$&$(32,16,16,16)$&1857\\
+			$QQ\bar Q\bar Q$&$2^+$&$(32,16,16,16)$&1793\\
+			$QQqq\bar Q$&$\frac{1}{2}^-$&$(40,20,20,20)$&3081\\
+			$QQqq\bar Q$&$\frac{3}{2}^-$&$(40,20,20,20)$&3041\\
+			$QQqq\bar Q$&$\frac{5}{2}^-$&$(40,20,20,20)$&2921\\
+			\hline\hline
+		\end{tabular*}
+	\end{table}
+	
+	In each iteration step during the optimization process, we use the Metropolis-Hastings Monte Carlo algorithm~\cite{Metropolis1953,Hastings1970} to generate sample points that are distributed according to the probability
+	\begin{equation}
+		P(R, \alpha)=\frac{\left|\psi_{\boldsymbol{\theta}}(R, \alpha)\right|^2}{\sum_\alpha \int d R\left|\psi_{\boldsymbol{\theta}}(R, \alpha)\right|^2},
+	\end{equation}
+	where $\psi_{\boldsymbol{\theta}}$ is the antisymmetric wave function, $R=(\boldsymbol{r}_1,\cdots,\boldsymbol{r}_N)$ and $\alpha=(\alpha_c,\alpha_s,\alpha_t)$ denote the continuous and discrete degrees of freedom, respectively. Each Metropolis step consists of a Gaussian kick for the spatial coordinates and a random flip of the coupled channels $\alpha$~\cite{Adams:2020aax}. The newly proposed configuration $(R^\prime,\alpha^\prime)$ is accepted with probabilities
+	\begin{equation}
+		P=\frac{\left|\psi_{\boldsymbol{\theta}}\left(R^{\prime}, \alpha^{\prime}\right)\right|^2}{\left|\psi_{\boldsymbol{\theta}}(R, \alpha)\right|^2}.
+	\end{equation}
+	
+	The energy expectation value $E_{\boldsymbol{\theta}}$ and its gradient with respect to the parameters $\nabla_{\boldsymbol{\theta}} E_{\boldsymbol{\theta}}$ can be estimated using these sample points.
+	\begin{equation}
+		\begin{aligned}
+			E_{\boldsymbol{\theta}}&=\frac{\sum_{\alpha\alpha^\prime}\int dR\, \psi_{\boldsymbol{\theta}}^*(R,\alpha)H_{\alpha\alpha^\prime}(R)\psi_{\boldsymbol{\theta}}(R,\alpha^\prime)}{\sum_\alpha\int dR\,|\psi_{\boldsymbol{\theta}}(R,\alpha)|^2}\\
+			&=\sum_{\alpha\alpha^\prime}\int dR\,P(R,\alpha)\psi_{\boldsymbol{\theta}}^{-1}(R,\alpha)H_{\alpha\alpha^\prime}(R)\psi_{\boldsymbol{\theta}}(R,\alpha^\prime)\\
+			&=\frac{1}{N}\sum_n E_L(R_n,\alpha_n),
+		\end{aligned}
+	\end{equation}
+	where $N$ is the number of sample points $(R_n,\alpha_n)$, and the local energy $E_L$ is given by,
+	\begin{equation}
+		E_L(R,\alpha)=\sum_{\alpha^\prime}\psi_{\boldsymbol{\theta}}(R,\alpha)^{-1}H_{\alpha\alpha^\prime}(R)\psi_{\boldsymbol{\theta}}(R,\alpha^\prime).
+	\end{equation}
+	Similarly, the gradient can be estimated as,
+	\begin{equation}
+		\begin{aligned}
+		\nabla_{\boldsymbol{\theta}} E_{\boldsymbol{\theta}}=2 &\left[\frac{1}{N}\left(\sum_n E_L(R_n,\alpha_n)\nabla_{\boldsymbol{\theta}}\log\psi_{\boldsymbol{\theta}}(R_n,\alpha_n)\right)\right.-\\
+		&\left.\,\frac{1}{N^2}\left(\sum_n E_L(R_n,\alpha_n)\right)\left(\sum_n\nabla_{\boldsymbol{\theta}}\log\psi_{\boldsymbol{\theta}}(R_n,\alpha_n)\right)\right].
+		\end{aligned}
+	\end{equation}
+	The parameters are then updated using the stochastic reconfiguration~\cite{PhysRevB.71.241103}, a commonly used optimization method in VMC~\cite{Adams:2020aax,Yang:2022rlw},
+	\begin{equation}
+		\boldsymbol{\theta}^{i+1}=\boldsymbol{\theta}^i-\eta(S+\epsilon I)^{-1}\nabla_{\boldsymbol{\theta}^i}E_{\boldsymbol{\theta}^i},
+	\end{equation}
+	where $i$ is the iteration step, $\eta$ is the learning rate, $\epsilon=10^{-3}$ is taken for numerical stability, and $S$ is the Quantum Fisher information matrix,
+	\begin{equation}
+		S_{ab}=\frac{\langle \partial_{\theta_a}\psi_{\boldsymbol{\theta}}|\partial_{\theta_b}\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}-\frac{\langle \partial_{\theta_a}\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}\frac{\langle \psi_{\boldsymbol{\theta}}|\partial_{\theta_b}\psi_{\boldsymbol{\theta}}\rangle}{\langle\psi_{\boldsymbol{\theta}}|\psi_{\boldsymbol{\theta}}\rangle}.
+	\end{equation}
+	The NetKet package~\cite{10.21468/SciPostPhysCodeb.7} provides efficient implementation of the stochastic reconfiguration algorithm.
+	
+	During initial optimization, the trial wave function resides far from the ground state in parameter space. We generate a small sample of $N=2\times10^4$ points to rapidly estimate $E_{\boldsymbol{\theta}}$ and $\nabla_{\boldsymbol{\theta}} E_{\boldsymbol{\theta}}$ with deliberate coarseness, enabling efficient early-stage convergence. As the DeepQuark wave function approaches convergence, we increase the sample size to $N=4\,\text{--}\,8\times10^4$ to stabilize the optimization process. During the final optimization stage, we save 10 distinct sets of wave function parameters at a 50-step interval.   The energy and other physical observables of these wave function configurations are subsequently evaluated using $N\sim10^6$ sample points. The parameter set yielding the lowest energy expectation value is selected as the final ground-state wave function.
+	
+	\section{Results of electron systems}~\label{app:eee}
+    The ground-state energy results of few-electron systems are listed in Table~\ref{tab:leptons}. 
+    For comparative purposes, we include well-established benchmark results such as the exact solution of $\mathrm{Ps}$, and high-precision variational results for $\mathrm{Ps}^-$ using  Hylleraas-type wave functions~\cite{Ho:1993zz} and $\mathrm{Ps}_2$ using explicitly correlated Gaussian functions~\cite{Kinghorn:1993zz,PhysRevA.74.052502}.
+ 
+    
+	\begin{table}[tbp]
+		\centering
+		\caption{Ground-state energies (in eV) of the few-electron systems. The statistical errors of the DeepQuark results are shown in the parentheses. Results from other methods are shown for comparison. $\mathrm{Ps}$ can be solved exactly while $\mathrm{Ps}^-$ and $\mathrm{Ps}_2$ are solved using variational method.}
+		\label{tab:leptons}
+		\begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}lcc@{}}
+			\hline\hline
+			& DQ&Other Methods \\
+			\hline
+			$ e^+e^- $&-6.80301(16)&-6.803\footnote{exact}\\
+			$e^+e^-e^-$&-7.12882(16)&-7.130~\cite{Ho:1993zz}\\
+			$e^+e^+e^-e^-$ &-14.0347(7)&-14.04~\cite{Kinghorn:1993zz,PhysRevA.74.052502}\\
+			\hline\hline
+		\end{tabular*}
+	\end{table}
+\end{document}
