@@ -59,49 +59,125 @@ $^4$Center of High Energy Physics, Peking University
 \section{Introduction}
 
 %==============================================================================
-% SLIDE 2: The Multiquark Zoo
+% SLIDE 2: Why Exotic Hadrons Matter
 %==============================================================================
-\begin{frame}{The Multiquark Zoo}
+\begin{frame}{Why Exotic Hadrons Matter}
 \begin{columns}[T]
 \begin{column}{0.55\textwidth}
-\textbf{Timeline of Exotic Discoveries:}
+\textbf{QCD: The Unsolved Theory}
 \begin{itemize}
-    \item \textbf{2003}: $X(3872)$ at Belle --- first exotic candidate
-    \item \textbf{2013}: $Z_c(3900)^+$ at BESIII --- manifestly exotic ($c\bar{c}u\bar{d}$)
-    \item \textbf{2015}: $P_c$ pentaquarks at LHCb
-    \item \textbf{2020}: $T_{4c}(6900)$ at LHCb --- fully heavy tetraquark
-    \item \textbf{2021}: $T_{cc}(3875)^+$ at LHCb --- doubly charmed tetraquark
+    \item Strong force governs nuclear matter
+    \item \textbf{Confinement} remains poorly understood
+    \item Quarks never observed in isolation --- why?
 \end{itemize}
 
 \vspace{0.5em}
-\textbf{Central Question:}\\
-What is the internal structure?
+\textbf{Exotic Hadrons as Probes:}
 \begin{itemize}
-    \item Compact tetraquark/pentaquark?
+    \item States beyond $q\bar{q}$ mesons and $qqq$ baryons
+    \item Directly probe \textbf{how color forces work}
+    \item Test our understanding of nonperturbative QCD
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Central Question:}\\
+\textit{How do multiple quarks arrange themselves?}
+\begin{itemize}
+    \item Compact multiquark cluster?
     \item Loosely bound hadronic molecule?
-    \item Mixture of configurations?
+    \item Dynamical mixture of configurations?
 \end{itemize}
 \end{column}
 \begin{column}{0.42\textwidth}
 \centering
-\begin{tikzpicture}[scale=0.8]
+\begin{tikzpicture}[scale=0.75]
+    % Ordinary hadrons
+    \node[font=\small\bfseries] at (0,4.2) {Ordinary Hadrons};
+    % Meson
+    \draw[thick,fill=heavyblue!15] (-1.2,3.2) circle (0.5);
+    \fill[heavyblue] (-1.35,3.2) circle (0.12);
+    \fill[lightquarkorange] (-1.05,3.2) circle (0.12);
+    \node[font=\tiny] at (-1.2,2.5) {$q\bar{q}$};
+    % Baryon
+    \draw[thick,fill=heavyblue!15] (1.2,3.2) circle (0.55);
+    \fill[lightquarkorange] (1.0,3.4) circle (0.1);
+    \fill[lightquarkorange] (1.4,3.4) circle (0.1);
+    \fill[lightquarkorange] (1.2,3.0) circle (0.1);
+    \node[font=\tiny] at (1.2,2.5) {$qqq$};
+
+    % Arrow
+    \draw[->,very thick,heavyblue] (0,2.1) -- (0,1.5);
+    \node[font=\tiny] at (0.8,1.8) {go beyond};
+
+    % Exotic hadrons
+    \node[font=\small\bfseries] at (0,1.1) {Exotic Hadrons};
+    % Tetraquark
+    \draw[thick,fill=orange!15] (-1.2,0) circle (0.6);
+    \fill[heavyblue] (-1.4,0.15) circle (0.1);
+    \fill[heavyblue] (-1.0,0.15) circle (0.1);
+    \fill[lightquarkorange] (-1.3,-0.2) circle (0.08);
+    \fill[lightquarkorange] (-1.1,-0.2) circle (0.08);
+    \node[font=\tiny] at (-1.2,-0.8) {$QQ\bar{q}\bar{q}$};
+    % Pentaquark
+    \draw[thick,fill=orange!15] (1.2,0) circle (0.7);
+    \fill[heavyblue] (1.0,0.25) circle (0.1);
+    \fill[heavyblue] (1.4,0.25) circle (0.1);
+    \fill[lightquarkorange] (0.9,-0.15) circle (0.08);
+    \fill[lightquarkorange] (1.3,-0.15) circle (0.08);
+    \fill[heavyblue] (1.6,-0.1) circle (0.1);
+    \node[font=\tiny] at (1.2,-0.9) {$QQqq\bar{Q}$};
+\end{tikzpicture}
+
+\vspace{0.3em}
+{\small \textit{Understanding exotics $\Rightarrow$\\insights into confinement}}
+\end{column}
+\end{columns}
+\end{frame}
+
+%==============================================================================
+% SLIDE 3: The Multiquark Zoo
+%==============================================================================
+\begin{frame}{The Multiquark Zoo: Experimental Discoveries}
+\begin{columns}[T]
+\begin{column}{0.58\textwidth}
+\textbf{Key Experimental Milestones:}
+\begin{itemize}
+    \item \textbf{2003}: $X(3872)$ at Belle --- first exotic candidate
+    \item \textbf{2015}: $P_c$ pentaquarks at LHCb ($uudc\bar{c}$)
+    \item \textbf{2020}: $T_{4c}(6900)$ at LHCb --- fully heavy $cc\bar{c}\bar{c}$
+    \item \textbf{2021}: $T_{cc}(3875)^+$ at LHCb --- doubly charmed $cc\bar{u}\bar{d}$
+    \item \textbf{2024}: CMS reports $J^{PC}=2^{++}$ $T_{4c}$ states
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{This Work:} \\
+Study $T_{cc}$, $T_{bb}$, $T_{4c}$, $T_{4b}$, and triply heavy pentaquarks $QQqq\bar{Q}$
+\end{column}
+\begin{column}{0.4\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.75]
     % Compact tetraquark
-    \node at (0,3.5) {\textbf{Compact}};
-    \draw[thick,fill=heavyblue!20] (0,2.5) circle (0.8);
-    \fill[heavyblue] (-0.3,2.7) circle (0.15) node[above left,font=\tiny] {$Q$};
-    \fill[heavyblue] (0.3,2.7) circle (0.15) node[above right,font=\tiny] {$Q$};
-    \fill[lightquarkorange] (-0.3,2.2) circle (0.12) node[below left,font=\tiny] {$\bar{q}$};
-    \fill[lightquarkorange] (0.3,2.2) circle (0.12) node[below right,font=\tiny] {$\bar{q}$};
+    \node at (0,3.3) {\small\textbf{Compact?}};
+    \draw[thick,fill=heavyblue!20] (0,2.4) circle (0.7);
+    \fill[heavyblue] (-0.25,2.55) circle (0.12);
+    \fill[heavyblue] (0.25,2.55) circle (0.12);
+    \fill[lightquarkorange] (-0.25,2.2) circle (0.1);
+    \fill[lightquarkorange] (0.25,2.2) circle (0.1);
+
+    % vs
+    \node at (0,1.5) {\small or};
 
     % Molecule
-    \node at (0,0.8) {\textbf{Molecule}};
-    \draw[thick,fill=heavyblue!10] (-0.6,-0.2) circle (0.5);
-    \draw[thick,fill=heavyblue!10] (0.6,-0.2) circle (0.5);
-    \fill[heavyblue] (-0.7,0) circle (0.12);
-    \fill[lightquarkorange] (-0.5,-0.4) circle (0.1);
-    \fill[heavyblue] (0.5,0) circle (0.12);
-    \fill[lightquarkorange] (0.7,-0.4) circle (0.1);
-    \draw[decorate,decoration={snake,amplitude=1.5pt,segment length=4pt}] (-0.1,-0.2) -- (0.1,-0.2);
+    \node at (0,0.9) {\small\textbf{Molecule?}};
+    \draw[thick,fill=heavyblue!10] (-0.5,0.1) circle (0.4);
+    \draw[thick,fill=heavyblue!10] (0.5,0.1) circle (0.4);
+    \fill[heavyblue] (-0.6,0.2) circle (0.1);
+    \fill[lightquarkorange] (-0.4,-0.05) circle (0.08);
+    \fill[heavyblue] (0.4,0.2) circle (0.1);
+    \fill[lightquarkorange] (0.6,-0.05) circle (0.08);
+    \draw[decorate,decoration={snake,amplitude=1.2pt,segment length=4pt}] (-0.1,0.1) -- (0.1,0.1);
+
+    \node at (0,-0.6) {\small\textit{DeepQuark answers this!}};
 \end{tikzpicture}
 \end{column}
 \end{columns}
@@ -460,93 +536,50 @@ where $S$ is the quantum Fisher information matrix
 \end{frame}
 
 %==============================================================================
-% SLIDE 10: Encoding Quantum Numbers
+% SLIDE 10: DeepQuark Wave Function (merged from encoding + symmetry)
 %==============================================================================
-\begin{frame}{Encoding Quantum Numbers}
-\begin{columns}[T]
-\begin{column}{0.5\textwidth}
-\textbf{Coupled Basis Representation:}\\
-Color-spin-isospin bases for tetraquark $QQ\bar{q}\bar{q}$:
-\begin{align*}
-&\chi_{\bar{3}_c\otimes 3_c}\phi^{s_a,s_b}\xi^{I=0}=\left[(QQ)_{\bar{3}_c}^{s_a}(\bar{q}\bar{q})_{3_c}^{s_b,I=0}\right]_{1_c}^{S=1}\\[0.3em]
-&\chi_{6_c\otimes \bar{6}_c}\phi^{s_a,s_b}\xi^{I=0}=\left[(QQ)_{6_c}^{s_a}(\bar{q}\bar{q})_{\bar{6}_c}^{s_b,I=0}\right]_{1_c}^{S=1}
-\end{align*}
-
-\vspace{0.3em}
-\textbf{Why coupled bases?}
-\begin{itemize}
-    \item Automatically enforces symmetry
-    \item Natural for strong correlations
-    \item No single-particle approximation needed
-\end{itemize}
-\end{column}
-\begin{column}{0.48\textwidth}
-\textbf{One-Hot Encoding:}\\
-Map discrete quantum numbers to vectors
-
-\vspace{0.5em}
-Example with 2 color bases:
-\begin{align*}
-\chi_{\bar{3}_c\otimes 3_c} &\rightarrow \alpha_c = (1, 0)\\
-\chi_{6_c\otimes \bar{6}_c} &\rightarrow \alpha_c = (0, 1)
-\end{align*}
-
-\vspace{0.3em}
-\textbf{Key insight:}\\
-Standard basis vectors ensure no prejudiced correlation between different bases
-
-\vspace{0.5em}
-\textbf{Input features:}
-\begin{equation*}
-\mathbf{x} = (\mathbf{r}_i, |\mathbf{r}_i - \mathbf{r}_j|, \alpha_c, \alpha_s, \alpha_t)
-\end{equation*}
-\end{column}
-\end{columns}
-\end{frame}
-
-%==============================================================================
-% SLIDE 11: Symmetry Enforcement
-%==============================================================================
-\begin{frame}{Symmetry Enforcement}
-\textbf{Full wave function with all symmetries:}
+\begin{frame}{DeepQuark Wave Function}
+\textbf{Full wave function with built-in symmetries:}
 \begin{equation*}
 \boxed{\Psi_{\text{A}}^\pi(\boldsymbol{x}) = (1+\pi\hat{P})\mathcal{A}\left[f_{NN}(\boldsymbol{x})\prod_{i<j}\exp\left(-\frac{r_{ij}^2}{b^2}\right)\right]}
 \end{equation*}
 
-\vspace{0.3em}
+\vspace{0.2em}
 \begin{columns}[T]
-\begin{column}{0.32\textwidth}
-\textbf{Boundary Condition:}
-\begin{equation*}
-\prod_{i<j}e^{-r_{ij}^2/b^2}
-\end{equation*}
+\begin{column}{0.48\textwidth}
+\textbf{Key Components:}
 \begin{itemize}
-    \item Confines system to localized space
-    \item $b = 2$--$4$ fm (order of $\Lambda_\text{QCD}^{-1}$)
-    \item Ensures convergence from random initialization
+    \item $f_{NN}(\boldsymbol{x})$: Neural network outputs wave function amplitude
+    \item $\mathcal{A}[\cdots]$: Antisymmetrization (Fermi-Dirac statistics)
+    \item $(1+\pi\hat{P})$: Parity projection ($\pi = \pm 1$)
+    \item $e^{-r_{ij}^2/b^2}$: Gaussian boundary ($b \sim 2$--$4$ fm)
 \end{itemize}
+
+\vspace{0.3em}
+\textbf{Input Features:}
+\begin{equation*}
+\boldsymbol{x} = (\mathbf{r}_i, |\mathbf{r}_i - \mathbf{r}_j|, \alpha_c, \alpha_s, \alpha_t)
+\end{equation*}
+{\small Spatial + color + spin + isospin (one-hot encoded)}
 \end{column}
-\begin{column}{0.32\textwidth}
-\textbf{Antisymmetrization:}
-\begin{equation*}
-\mathcal{A}[\cdots]
-\end{equation*}
+\begin{column}{0.48\textwidth}
+\textbf{Coupled Basis Approach:}
 \begin{itemize}
-    \item Enforces Fermi-Dirac statistics
-    \item Sum over permutations of identical particles
-    \item Factorial complexity, but manageable for 3--4 identical quarks
+    \item Color-spin-isospin bases (not single-particle orbitals)
+    \item Example for $QQ\bar{q}\bar{q}$: $\bar{3}_c \otimes 3_c$ and $6_c \otimes \bar{6}_c$
+    \item Network learns mixing automatically
 \end{itemize}
-\end{column}
-\begin{column}{0.32\textwidth}
-\textbf{Parity Projection:}
-\begin{equation*}
-(1+\pi\hat{P})
-\end{equation*}
+
+\vspace{0.3em}
+\textbf{Why This Works:}
 \begin{itemize}
-    \item Projects onto definite parity $\pi = \pm 1$
-    \item $\hat{P}$: spatial inversion operator
-    \item Ground states: positive parity (tetraquark), negative parity (pentaquark)
+    \item No \textit{a priori} structure assumption
+    \item Same ansatz $\Rightarrow$ molecular or compact
+    \item Symmetries built in, not approximated
+    \item Efficient for strongly correlated systems
 \end{itemize}
+
+{\small (See backup for detailed color basis formulas)}
 \end{column}
 \end{columns}
 \end{frame}
@@ -602,24 +635,40 @@ Standard basis vectors ensure no prejudiced correlation between different bases
 \section{Results}
 
 %==============================================================================
-% SLIDE 13: Nucleon Benchmarks
+% SLIDE 13: Benchmarks and Performance
 %==============================================================================
-\begin{frame}{Benchmark: Nucleon with Different Confinements}
+\begin{frame}{Benchmarks: DeepQuark Performance}
 \begin{columns}[T]
-\begin{column}{0.22\textwidth}
-\centering
-\includegraphics[width=\textwidth]{arXiv-2506.20555v1/qqqFT.pdf}
-
-\vspace{0.2em}
-{\scriptsize Confinement:\\
-\textbf{L:} Pairwise\\
-\textbf{R:} Flux-tube}
-\end{column}
-\begin{column}{0.76\textwidth}
+\begin{column}{0.55\textwidth}
 \centering
 \includegraphics[width=\textwidth]{arXiv-2506.20555v1/Graph_multiquark.pdf}
 
-{\small (a) nucleon, (b) $T_{cc}$, (c) $T_{4c}$, (d) pentaquark --- DeepQuark matches GEM/DMC}
+\vspace{0.1em}
+{\small (a) nucleon, (b) $T_{cc}$, (c) $T_{4c}$, (d) pentaquark}
+\end{column}
+\begin{column}{0.43\textwidth}
+\textbf{Key Performance Metrics:}
+\begin{itemize}
+    \item Matches GEM/DMC to $<0.1$ MeV
+    \item Converges in $\sim$1000--3000 iterations
+    \item $\sim$1000--3000 parameters (compact!)
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Unique Capability:}
+\begin{itemize}
+    \item Handles \textbf{flux-tube confinement}
+    \item GEM cannot do this efficiently!
+\end{itemize}
+
+\vspace{0.3em}
+\centering
+\includegraphics[width=0.7\textwidth]{arXiv-2506.20555v1/qqqFT.pdf}
+
+{\scriptsize Pairwise vs.\ flux-tube confinement}
+
+\vspace{0.2em}
+\textbf{Same accuracy, handles complex interactions}
 \end{column}
 \end{columns}
 \end{frame}
@@ -752,7 +801,57 @@ Heavy $bb$ diquark acts like $\bar{3}_c$ antiquark
 \end{frame}
 
 %==============================================================================
-% SLIDE 16: Fully Heavy Tetraquarks
+% SLIDE 16: T4c - A Laboratory for Confinement
+%==============================================================================
+\begin{frame}{$T_{4c}$: A Laboratory for Confinement}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Why $T_{4c}$ Is Special:}
+\begin{itemize}
+    \item \textbf{Pure QCD system} --- no light quark chiral effects
+    \item Short-range gluon exchange dominates
+    \item Ideal testbed for \textbf{confinement mechanisms}
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Experimental Motivation:}
+\begin{itemize}
+    \item LHCb (2020): $T_{4c}(6900)$ resonance
+    \item CMS (2024): Three states with $J^{PC} = 2^{++}$
+    \item ATLAS: Confirmation of structures
+\end{itemize}
+
+\vspace{0.3em}
+\textit{``A clear platform to investigate short-range gluon exchange and confinement''}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Why DeepQuark Can Calculate It:}
+
+\vspace{0.2em}
+\textcolor{red}{\textbf{Challenge:}} Flux-tube confinement
+\begin{itemize}
+    \item Many-body interaction (not pairwise)
+    \item ``Computationally intractable'' for GEM
+    \item Requires exponentially many basis states
+\end{itemize}
+
+\vspace{0.3em}
+\textcolor{heavyblue}{\textbf{DeepQuark Solution:}}
+\begin{itemize}
+    \item VMC handles complex many-body forces
+    \item No basis expansion needed
+    \item Monte Carlo sampling is efficient
+    \item No sign problem (unlike DMC)
+\end{itemize}
+
+\vspace{0.3em}
+$\Rightarrow$ Opens door to explore \textbf{confining mechanisms beyond two-body interactions}
+\end{column}
+\end{columns}
+\end{frame}
+
+%==============================================================================
+% SLIDE 17: Fully Heavy Tetraquarks
 %==============================================================================
 \begin{frame}{Fully Heavy Tetraquarks: $T_{4c}$ and $T_{4b}$}
 \begin{columns}[T]
@@ -1102,40 +1201,44 @@ Molecular $\bar{D}^*\Xi_{cc}^*$ structure
 %==============================================================================
 % SLIDE 22: Outlook
 %==============================================================================
-\begin{frame}{Outlook and Future Directions}
+\begin{frame}{Outlook: Toward Understanding Confinement}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
-\textbf{Immediate Extensions:}
+\textbf{Immediate Physics Goals:}
 \begin{itemize}
     \item Other pentaquark systems ($P_c$, $P_b$)
-    \item \textbf{Hexaquarks} (6 quarks)
+    \item Hexaquarks (6 quarks, like $d^*$)
     \item Excited states and resonances
-    \item Different quark model potentials
 \end{itemize}
 
-\vspace{0.5em}
-\textbf{Confinement Physics:}
+\vspace{0.3em}
+\textbf{Probing Confinement:}
 \begin{itemize}
-    \item Flux-tube interactions in tetraquarks
-    \item Many-body confinement mechanisms
-    \item Connection to lattice QCD results
+    \item Flux-tube vs.\ pairwise confinement
+    \item Many-body color interactions
+    \item Connection to lattice QCD
+    \item \textit{Which mechanism governs multiquarks?}
 \end{itemize}
+
+\vspace{0.3em}
+DeepQuark is \textbf{uniquely positioned} to explore these questions!
 \end{column}
 \begin{column}{0.48\textwidth}
-\textbf{Methodological Improvements:}
+\textbf{Experimental Synergy:}
 \begin{itemize}
-    \item More sophisticated network architectures
-    \item Excited state methods (penalty, orthogonalization)
-    \item Scattering state descriptions
+    \item LHCb, CMS, ATLAS: more exotics coming
+    \item BESIII: charm sector
+    \item Belle II: B physics
+    \item Predictions guide searches
 \end{itemize}
 
-\vspace{0.5em}
-\textbf{Broader Impact:}
+\vspace{0.3em}
+\textbf{The Big Picture:}
 \begin{itemize}
-    \item Forward-looking predictions for experiments
-    \item Insights into nonperturbative QCD
-    \item General quantum many-body physics
-    \item Deep learning + physics integration
+    \item Exotics $\Rightarrow$ probe nonperturbative QCD
+    \item Structure (molecular vs.\ compact) reveals color dynamics
+    \item DeepQuark: first-principles, unbiased predictions
+    \item Deep learning enables previously intractable calculations
 \end{itemize}
 \end{column}
 \end{columns}
