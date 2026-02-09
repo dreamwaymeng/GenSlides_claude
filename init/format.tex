@@ -1,0 +1,256 @@
+% Beamer 模板设置
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[page number]
+\setbeamertemplate{section in toc}[sections numbered]
+
+% Itemize 格式设置
+\setbeamertemplate{itemize item}[circle] % 项目符号设置为圆形
+\setbeamertemplate{itemize subitem}{$\circ$} % 子项目符号设置为圆形
+\setbeamertemplate{itemize subsubitem}[circle] % 子子项目符号设置为圆形
+
+% Enumerate 格式设置
+\setbeamertemplate{enumerate subitem}{\alph{enumii}.} % 子项目符号设置为小写字母
+\setbeamertemplate{enumerate subsubitem}{\roman{enumiii}.} % 子子项目符号设置为罗马数字
+
+% 颜色设置
+\setbeamercolor{frametitle}{bg=, fg=themecolorfg}
+\setbeamercolor{block title}{bg=themecolorbg!8, fg=themecolorfg}
+\setbeamercolor{description item}{fg=themecolorfg}
+\setbeamercolor{section in toc}{fg=themecolorfg, bg=}
+\setbeamercolor{subsection in toc}{fg=black!80}
+\setbeamercolor{caption name}{fg=themecolorfg}
+\setbeamercolor{bibliography entry author}{fg=black}
+\setbeamercolor{bibliography entry title}{fg=black}
+\setbeamercolor{bibliography entry journal}{fg=black}
+\setbeamercolor{bibliography entry note}{fg=black}
+\setbeamercolor{bibliography item}{fg=themecolorfg}
+\setbeamercolor{itemize item}{fg=themecolorbg} % 项目符号颜色设置
+\setbeamercolor{itemize subitem}{fg=themecolorbg} % 子项目符号颜色设置
+\setbeamercolor{itemize subsubitem}{fg=themecolorbg} % 子子项目符号颜色设置
+\setbeamercolor{enumerate item}{fg=themecolorfg} % 枚举项颜色设置
+\setbeamercolor{enumerate subitem}{fg=themecolorfg} % 枚举子项颜色设置
+\setbeamercolor{enumerate subsubitem}{fg=themecolorfg} % 枚举子子项颜色设置
+
+% ============================================
+% 语言模式检测 (en 或 cn)
+% ============================================
+\newif\iflangcn
+\ifdefined\langmode
+  % 使用 \pdfstrcmp 或字符串比较 (更可靠)
+  \makeatletter
+  \def\@tempa{cn}
+  \ifx\langmode\@tempa
+    \langcntrue
+  \else
+    \langcnfalse
+  \fi
+  \makeatother
+\else
+  % 默认为中文模式
+  \langcntrue
+\fi
+
+% ============================================
+% 字体设置（根据语言模式）
+% 定义全局字体变量，修改这里即可改变所有字体
+% ============================================
+\iflangcn
+  % 中文模式：使用中文字体
+  % 可选: \kaishu, \songti, \heiti, \fangsong, \yahei, \lishu 等
+  \newcommand{\slidefont}{\kaishu}  % 标题字体 (frametitle, block title 等)
+  \newcommand{\bodyfont}{\kaishu}     % 正文字体
+    \AtBeginDocument{\bodyfont}
+
+\else
+  % 英文模式：使用默认字体
+  \newcommand{\slidefont}{}  % 标题字体
+  \newcommand{\bodyfont}{}  % 正文字体
+\fi
+
+% 字体设置 
+\setbeamerfont{frametitle}{size=\Large,family=\slidefont}
+\setbeamerfont{framesubtitle}{size=\normalsize,family=\slidefont}
+\setbeamerfont{block title}{size=\large,family=\slidefont}
+\setbeamerfont{section in toc}{size=\large,family=\slidefont}
+\setbeamerfont{subsection in toc}{size=\normalsize,family=\slidefont}
+\setbeamerfont{caption name}{size=\normalsize,family=\slidefont}
+\setbeamerfont{caption}{size=\normalsize,family=\slidefont}
+\setbeamerfont{footnote}{size=\tiny}
+\setbeamerfont{description item}{size=\normalsize,family=\slidefont}
+
+% 页脚模板设置
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=2.25ex, dp=1ex, leftskip=0.5cm, rightskip=0.5cm]{title in head/foot}%
+    \hfill{\textcolor{black!70}{\scriptsize \insertframenumber/\inserttotalframenumber}}\hspace*{1mm}\vspace*{2mm}
+  \end{beamercolorbox}%
+}
+
+% 自定义标题模板 (使用 \slidefont 而不是 \bf)
+\defbeamertemplate*{frametitle}{}[1][]{
+  \nointerlineskip%
+   \vspace*{-7mm}
+  \hspace*{-1mm}
+  \begin{beamercolorbox}[sep=0.3cm, wd=\paperwidth]{frametitle}
+  \begin{center}
+    {\bf\usebeamerfont{frametitle}\insertframetitle}
+    {\usebeamerfont{framesubtitle}\color{black!80}\insertframesubtitle}
+  \end{center}
+       \vskip-4.5ex
+    \hfill
+    \raisebox{-3mm}{\includegraphics[width=20mm]{figs/logo_wb}}
+           \vskip-1.5ex
+    \begin{tikzpicture}[remember picture, overlay]
+      \draw[line width=1pt, color=themecolorbg] (-14mm,0) -- (\paperwidth-28mm,0);
+    \end{tikzpicture}
+  \end{beamercolorbox}
+  \vspace*{-7mm}
+}
+
+
+
+% 设置段落间距
+\setlength{\parskip}{0.5em}
+
+% 参考文献
+\bibliography{reference.bib}
+\normalem
+
+% 数学字体主题设置
+\usefonttheme[onlymath]{serif}
+
+% 表格环境设置
+\AtBeginEnvironment{table}{\setlength{\parskip}{0em}}
+
+
+% ------------------
+
+\newmdenv[
+    hidealllines=true,
+    leftline=true,
+    linewidth=1pt,
+    linecolor=darkgray,
+    fontcolor=darkgray,
+    innertopmargin=1pt,
+    innerbottommargin=1pt,
+    font=\bodyfont\normalsize,
+]{myquote}
+
+\newmdenv[
+    hidealllines=true,
+    linewidth=0pt,
+    fontcolor=darkgray,
+    font=\bodyfont\small,
+]{myderive}
+
+\newmdenv[
+userdefinedwidth=0cm,
+leftmargin=2cm,
+linecolor=themecolorbg,
+innerleftmargin=5pt,
+ backgroundcolor=themecolorbg!10, % 设置填充颜色（此处为蓝色，20%透明度
+align=center]{mybox}
+
+
+\lstset{
+    basicstyle=\ttfamily\color{stronghighlightcolor},
+}
+
+\lstdefinestyle{python}{
+    language=Python,
+    basicstyle=\normalsize\ttfamily,
+    keywordstyle=\color{themecolorbg},
+    stringstyle=\color{themered!150!black},
+    commentstyle=\color{black!50},
+    showstringspaces=false,
+    backgroundcolor=\color{white},
+    frame=single,
+    framerule=0.25pt,
+    framesep=3pt,
+    rulecolor=\color{themecolorbg},
+    numbers=left,
+    numberstyle=\tiny\color{darkgray},
+    numbersep=5pt,
+    breaklines=true,
+    escapeinside={(*@}{@*)}
+}
+
+\lstdefinestyle{latex}{
+    language=[LaTeX]TeX,
+    basicstyle=\normalsize\ttfamily,
+    keywordstyle=\color{themecolorbg},
+    stringstyle=\color{themered!150!black},
+    commentstyle=\color{black!50},
+    showstringspaces=false,
+    backgroundcolor=\color{white},
+    frame=single,
+    framerule=0.25pt,
+    framesep=3pt,
+    rulecolor=\color{themecolorbg},
+    numbers=left,
+    numberstyle=\tiny\color{darkgray},
+    numbersep=5pt,
+    breaklines=true,
+    escapeinside={(*@}{@*)}
+}
+
+% ------------------------
+
+\newcommand{\makesection}[1][0.4]{
+    \begin{frame}[plain]
+        \centering
+        \vspace*{7mm}
+        \begin{tabular}{l}
+            {\color{themecolorfg}
+            \huge\slidefont
+            \insertsectionnumber.\ \insertsection}\\
+            \begin{tikzpicture}
+                \fill[black!30] (0,0) rectangle (#1\textwidth, 1pt);
+                \fill[themecolorfg] (0,0) rectangle (#1\textwidth/2, 1pt);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{frame}
+}
+
+
+\newcommand{\titlecolorbox}[2]{
+    \hfill
+\begin{tikzpicture}[remember picture, overlay]
+  \node[
+    anchor=north east,
+    xshift=-0.5cm,   % 向左偏移
+    yshift=-0.3cm    % 向下偏移
+  ] at (current page.north east)
+  {\includegraphics[width=3cm]{figs/logo_cl.pdf}};
+\end{tikzpicture}
+
+
+    \centering
+
+     \vspace{5mm}
+       \begin{tcolorbox}[colback=white!0, colframe=white!0,
+    boxrule=0pt,
+    toprule=0pt,
+    leftrule=0pt,
+    rightrule=0pt, arc=0mm,  width=\paperwidth,
+   enlarge left by=-1in-\oddsidemargin,
+    enlarge right by=-1in-\oddsidemargin ]
+        \color{darkgray} \normalsize\slidefont
+        #2
+    \end{tcolorbox}
+       \vspace{-5mm}
+    \begin{tcolorbox}[colback=themecolorbg, colframe=themeyellow,
+    boxrule=5pt,
+    toprule=0pt,
+    leftrule=0pt,
+    rightrule=0pt, arc=0mm,  width=\paperwidth,
+   enlarge left by=-1in-\oddsidemargin,
+    enlarge right by=-1in-\oddsidemargin ]
+        \color{white} \Huge\slidefont\centering
+        #1
+    \end{tcolorbox}
+}
+
+\newcommand{\highlight}[1]{\textcolor{themecolorbg}{#1}}
+\newcommand{\ulhighlight}[1]{\textcolor{themecolorbg}{\color{themecolorbg}\uline{#1}}}
+\newcommand{\stronghighlight}[1]{\textcolor{stronghighlightcolor}{#1}}
+\newcommand{\ulstronghighlight}[1]{\textcolor{stronghighlightcolor}{\color{stronghighlightcolor}\uline{#1}}}
